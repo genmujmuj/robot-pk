@@ -14,6 +14,8 @@ pygame.display.set_caption("Map Drawer")
 win.fill((255, 255, 255))
 pygame.display.update()
 
+MAP_FOLDER = "shared"
+
 # Initialize font
 font = pygame.font.SysFont(None, 24)
 
@@ -78,12 +80,11 @@ def draw_distance_bar(total_distance):
 # Function to save the current map as an image
 def save_map():
     # Ensure the directory exists
-    directory = 'maps'
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+    if not os.path.exists(MAP_FOLDER):
+        os.makedirs(MAP_FOLDER)
     
     timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    filename = os.path.join(directory, f'{timestamp}.png')
+    filename = os.path.join(MAP_FOLDER, f'{timestamp}.png')
     pygame.image.save(win, filename)
     print(f"Map saved as {filename}")
 
