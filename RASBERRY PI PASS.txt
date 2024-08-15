@@ -1,0 +1,24 @@
+hasło raspberry = 123
+
+1. setup hotspot wifi na raspberry pi - robot_PK - hasło = admin123
+2. zainstalowałam zdalny serwer plików SAMBA i jego zależności
+	sudo apt install samba samba-common-bin
+	
+	instalacja jak na tym: https://wiki.samba.org/index.php/Distribution-specific_Package_Installation
+3. wchodzimy w ETC/samba/smb.conf i tworzymy konfigurację serwera
+	a) tworzymy folder /robot/shared na raspberry Pi (mkdir /robot/shared/
+	b) edycja pliku konfiguracji samba - sudo nano /etc/samba/smb.conf   -- nano to notatnik
+	c) na końcu pliku dopisujemy to (nową konfigurację):
+		[robot_shared]				nazwa konfiguracji
+		path=/robot/shared		ścieżka folderu do udostępnienia
+		writeable=No			tylko raspberry zapisuje pliki, użytkownik może tylko odczytać	
+		browsable = yes			jest dostępne w przeglądarkach sieciowych
+		create mask=0755			
+		directory mask=0755		oznacza to że każdy użytkownik (nawet niezalogowany) może się połączyć
+	d) startujemy (lub restart) serwis samby po zapisaniu .conf żeby wczytało nową konfigurację
+	- sudo systemctl restart samba
+4. wchodzimy na serwer lokalnie - odpalamy eksplorator plików - sieć -> mapuj dysk sieciowy
+	a) adres:
+		\\raspberrypi\robot_shared\
+		-- \\adres hosta\\nazwa udostępnionej lokalizacji\
+			
